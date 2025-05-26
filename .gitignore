@@ -1,2 +1,5 @@
+# Ignore environment config
 Backend/config.env
-Backend/node_modules
+
+# Ignore node_modules
+Backend/node_modules/
