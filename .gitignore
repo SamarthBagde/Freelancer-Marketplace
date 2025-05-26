@@ -1,5 +1,12 @@
-# Ignore environment config
+# Backend
+Backend/node_modules/
 Backend/config.env
 
-# Ignore node_modules
-Backend/node_modules/
+# Logs
+*.log
+
+# OS files
+.DS_Store
+
+# Editor folders
+.vscode/
