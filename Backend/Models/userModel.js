@@ -11,6 +11,7 @@ const userSchema = mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
     validate: [validator.isEmail, "Please enter valid email"],
   },
 
@@ -36,7 +37,14 @@ const userSchema = mongoose.Schema({
   },
 });
 
-userSchema.method.comparePassword = async function (enteredPass) {
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
+  this.password = await bcryptjs.hash(this.password, 5);
+});
+
+userSchema.methods.comparePassword = async function (enteredPass) {
   return await bcryptjs.compare(enteredPass, this.password);
 };
 
