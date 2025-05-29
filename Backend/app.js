@@ -1,6 +1,7 @@
 import express from "express";
-import userRouter from "./Routes/userRoutes.js";
 import cookieParser from "cookie-parser";
+import userRouter from "./Routes/userRoutes.js";
+import workRouter from "./Routes/workRoutes.js";
 import { AppError } from "./Utils/appError.js";
 import { errorHandler } from "./Middlewares/errorHandler.js";
 
@@ -9,6 +10,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/user", userRouter);
+app.use("/work", workRouter);
 
 app.all("*unknown", (req, res, next) => {
   //   res.status(404).json({

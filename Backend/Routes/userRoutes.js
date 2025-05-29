@@ -4,13 +4,18 @@ import {
   login,
   logout,
   updateProfile,
-} from "../Controllers/authController.js";
+  getUsers,
+  getUserById,
+} from "../Controllers/userController.js";
 
 const userRouter = express.Router();
 
 userRouter.post("/register", registerUser);
 userRouter.post("/login", login);
-userRouter.post("/update/:id", updateProfile);
 userRouter.get("/logout", logout);
+userRouter.put("/update/:id", updateProfile);
+
+userRouter.get("/getUsers", getUsers);
+userRouter.get("/getUser/:id", getUserById);
 
 export default userRouter;
