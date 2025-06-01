@@ -4,10 +4,17 @@ import userRouter from "./Routes/userRoutes.js";
 import workRouter from "./Routes/workRoutes.js";
 import { AppError } from "./Utils/appError.js";
 import { errorHandler } from "./Middlewares/errorHandler.js";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 app.use("/user", userRouter);
 app.use("/work", workRouter);
