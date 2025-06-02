@@ -1,19 +1,25 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPssword] = useState("");
+  const [role, setRole] = useState("client");
+
+  const navigator = useNavigate();
+
+  const handleChange = (e) => {
+    setRole(e.target.value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(email + " " + password);
-    if (!email || !password) {
+    console.log(email + " " + password + " " + role);
+    if (!email.trim() || !role || !password.trim()) {
       console.log("Enter email or password correctlly");
       return;
     }
-    const role = "client";
     try {
       const res = await axios.post(
         "http://localhost:3001/user/login",
@@ -26,12 +32,18 @@ const Login = () => {
       );
 
       if (res.status === 200) {
-        console.log("Login successfully");
+        const role = res.data.data.user.role;
+
+        if (role === "client") {
+          navigator("/client");
+        } else if (role === "freelancer") {
+          navigator("/freelancer");
+        }
       } else {
         console.log(res);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data);
     }
   };
 
@@ -53,7 +65,12 @@ const Login = () => {
             required
             onChange={(e) => setPssword(e.target.value)}
           />
-        </div>
+        </div>{" "}
+        <select value={role} onChange={handleChange}>
+          <option value="client">Client</option>
+          <option value="freelancer">Freelancer</option>
+        </select>
+        <br />
         <button type="submit">Login</button>
       </form>
     </>

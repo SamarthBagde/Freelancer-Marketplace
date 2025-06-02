@@ -7,12 +7,14 @@ import {
   getUsers,
   getUserById,
 } from "../Controllers/userController.js";
+import { authUser } from "../Controllers/authController.js";
 
 const userRouter = express.Router();
 
 userRouter.post("/register", registerUser);
 userRouter.post("/login", login);
 userRouter.get("/logout", logout);
+userRouter.get("/auth/check", authUser);
 userRouter.put("/update/:id", updateProfile);
 
 userRouter.get("/getUsers", getUsers);
