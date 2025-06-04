@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 
 //authentication and authorization routes
 export const registerUser = asyncHandler(async (req, res, next) => {
+  console.log(req.body);
   const { name, email, password, phone, role, profile } = req.body;
   const { domain, skills } = profile || {};
 

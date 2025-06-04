@@ -73,6 +73,11 @@ const Login = () => {
         <br />
         <button type="submit">Login</button>
       </form>
+
+      <br />
+      <br />
+
+      <div onClick={() => navigator("/register")}>Register</div>
     </>
   );
 };
