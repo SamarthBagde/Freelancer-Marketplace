@@ -38,7 +38,7 @@ export const addWork = asyncHandler(async (req, res, next) => {
 export const getWorks = asyncHandler(async (req, res, next) => {
   const works = await workModel.find();
 
-  workModel.res.status(200).json({
+  res.status(200).json({
     status: "success",
     data: {
       works,

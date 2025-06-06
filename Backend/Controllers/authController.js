@@ -35,7 +35,7 @@ export const restrictTo = (...roles) => {
   };
 };
 
-export const authUser = (req, res, next) => {
+export const authUser = asyncHandler(async (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
     return next(new AppError("Authentication failed", 401));
@@ -43,12 +43,13 @@ export const authUser = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const user = await userModel.findById(decoded.id);
     return res.status(200).json({
       status: "success",
       authenticated: true,
-      user: decoded,
+      userRole: user.role,
     });
   } catch (error) {
     return res.status(401).json({ status: "fail", authenticated: false });
   }
-};
+});
