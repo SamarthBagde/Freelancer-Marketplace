@@ -1,0 +1,16 @@
+.mainContainer {
+  background-color: #e0e7ff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.mainContainer h1 {
+  font-size: 80px;
+}
+
+.text {
+  font-size: 52px;
+}

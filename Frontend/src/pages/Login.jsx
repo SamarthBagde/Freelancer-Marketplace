@@ -29,7 +29,6 @@ const Login = () => {
     if (!role) {
       console.log("Please select a user role.");
       setErrorMsg("Please select a user role.");
-
       return;
     }
 
