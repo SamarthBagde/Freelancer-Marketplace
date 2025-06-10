@@ -4,8 +4,15 @@ import userModel from "../Models/userModel.js";
 import { asyncHandler } from "../Middlewares/asyncHandler.js";
 
 export const addWork = asyncHandler(async (req, res, next) => {
-  const { title, description, domain, skillsRequired, budget, deadline } =
-    req.body;
+  const {
+    title,
+    description,
+    domain,
+    skillsRequired,
+    budget,
+    deadline,
+    owner,
+  } = req.body;
 
   if (
     !title ||
@@ -13,7 +20,8 @@ export const addWork = asyncHandler(async (req, res, next) => {
     !domain ||
     !skillsRequired ||
     !budget ||
-    !deadline
+    !deadline ||
+    !owner
   ) {
     return next(new AppError("Enter all details", 400));
   }
@@ -25,6 +33,7 @@ export const addWork = asyncHandler(async (req, res, next) => {
     skillsRequired,
     budget,
     deadline,
+    owner,
   });
 
   res.status(201).json({
@@ -37,6 +46,19 @@ export const addWork = asyncHandler(async (req, res, next) => {
 
 export const getWorks = asyncHandler(async (req, res, next) => {
   const works = await workModel.find();
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      works,
+    },
+  });
+});
+
+export const getWorksByOwner = asyncHandler(async (req, res, next) => {
+  const ownerId = req.params.id;
+
+  const works = await workModel.find({ owner: ownerId });
 
   res.status(200).json({
     status: "success",

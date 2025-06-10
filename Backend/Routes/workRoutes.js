@@ -7,6 +7,7 @@ import {
   deleteWork,
   getWorkById,
   getWorks,
+  getWorksByOwner,
   updateWorkStatus,
 } from "../Controllers/workController.js";
 import { protect, restrictTo } from "../Controllers/authController.js";
@@ -31,5 +32,6 @@ workRouter.patch(
   restrictTo("client"),
   updateWorkStatus
 );
+workRouter.get("/getWorks/:id", protect, getWorksByOwner);
 
 export default workRouter;

@@ -2,6 +2,10 @@ import { application } from "express";
 import mongoose from "mongoose";
 
 const workSchema = mongoose.Schema({
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
   title: {
     type: String,
     required: true,
@@ -40,7 +44,7 @@ const workSchema = mongoose.Schema({
   applications: [
     {
       freelancers: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         require: true,
       },
       appliedAt: {
