@@ -49,6 +49,7 @@ export const getWorks = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
+    total: works.length,
     data: {
       works,
     },
@@ -62,6 +63,7 @@ export const getWorksByOwner = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
+    total: works.length,
     data: {
       works,
     },
@@ -217,7 +219,15 @@ export const closeWork = asyncHandler(async (req, res, next) => {
     return next(new AppError("Work is already closed", 400));
   }
 
-  work.status = status;
+  let newStatus = "";
+
+  if (status === "in progress") {
+    newStatus = "completed";
+  } else if (status === "open") {
+    newStatus = "cancelleds";
+  }
+
+  work.status = newStatus;
 
   await work.save();
 

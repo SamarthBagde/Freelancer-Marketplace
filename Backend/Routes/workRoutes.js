@@ -23,7 +23,7 @@ workRouter.post(
   restrictTo("client"),
   acceptApplycation
 );
-workRouter.post("/:id/closeWork", protect, restrictTo("client"), closeWork);
+workRouter.post("/closeWork/:id", protect, restrictTo("client"), closeWork);
 workRouter.get("/getWork/:id", protect, getWorkById);
 workRouter.delete("/deleteWork/:id", protect, restrictTo("client"), deleteWork);
 workRouter.patch(

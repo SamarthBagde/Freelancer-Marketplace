@@ -47,6 +47,7 @@ export const authUser = asyncHandler(async (req, res, next) => {
     return res.status(200).json({
       status: "success",
       authenticated: true,
+      user: user,
       userRole: user.role,
     });
   } catch (error) {
