@@ -7,6 +7,7 @@ import FreelancerDashboard from "./pages/FreelancerDashborad";
 import LandingPage from "./pages/Landingpage";
 import UploadWork from "./pages/UploadWork";
 import NotFoundErrorPage from "./pages/NotFoundErrorPage";
+import ClientWork from "./pages/ClientWork";
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        {/* Client routes */}
         <Route
           path="/client"
           element={
@@ -24,6 +27,25 @@ function App() {
           }
         />
         <Route
+          path="/client/work/:workId"
+          element={
+            <ProtectedRoute allowedRole={"client"}>
+              <ClientWork />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/client/post-work"
+          element={
+            <ProtectedRoute allowedRole={"client"}>
+              <UploadWork />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Freelancer routes */}
+        <Route
           path="/freelancer"
           element={
             <ProtectedRoute allowedRole={"freelancer"}>
@@ -31,8 +53,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
-        <Route path="/upload-work" element={<UploadWork />} />
 
         {/* 404 error handling route */}
         <Route path="*" element={<NotFoundErrorPage />} />

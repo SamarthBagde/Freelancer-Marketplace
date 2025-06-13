@@ -1,7 +1,9 @@
+import NavBar from "../components/NavBar";
+
 const FreelancerDashboard = () => {
   return (
     <>
-      <h1>Freelancer</h1>
+      <NavBar title="Freelancer" />
     </>
   );
 };

@@ -1,0 +1,20 @@
+.navBarContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: #111827;
+  color: white;
+}
+
+.left {
+  font-size: 24px;
+  font-weight: bold;
+  cursor: default;
+}
+
+.right .panel p {
+  display: inline-block;
+  margin-left: 16px;
+  cursor: pointer;
+}
