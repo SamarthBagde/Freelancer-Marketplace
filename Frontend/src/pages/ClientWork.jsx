@@ -33,6 +33,55 @@ const ClientWork = () => {
 
     getworkInfo();
   }, []);
+
+  const onClickDelete = async () => {
+    const isConfirm = confirm("You want to delete this work");
+
+    if (isConfirm) {
+      try {
+        const res = await axios.delete(
+          `http://localhost:3001/work/deleteWork/${workId}`,
+          {
+            withCredentials: true,
+          }
+        );
+
+        if (res.status === 204) {
+          console.log("Work delete successfully.");
+        }
+      } catch (error) {
+        console.log(error.response.data);
+      }
+    }
+  };
+
+  const onClickClose = async () => {
+    const isConfirm = confirm("You want to close this work");
+    if (isConfirm) {
+      try {
+        const res = await axios.post(
+          `http://localhost:3001/work/closeWork/${workId}`,
+          {
+            status: work.status,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+
+        if (res.status === 200) {
+          console.log("Work closed successfully.");
+        }
+      } catch (error) {
+        console.log(error.response.data);
+      }
+    }
+  };
+
+  const onClickEdit = async () => {
+    console.log("Yet to work on it, wait ");
+  };
+
   return (
     <>
       <div className={style.mainContainer}>
@@ -47,6 +96,24 @@ const ClientWork = () => {
               <div className={style.title}>{work.createdAt}</div>
               <div className={style.title}>{work.deadline}</div>
               <div className={style.title}>{work.status}</div>
+
+              <div className={style.btnContainer}>
+                <button onClick={onClickDelete} className={style.deleteBtn}>
+                  Delete work
+                </button>
+                <button
+                  disabled={
+                    work.status === "completed" || work.status === "cancelled"
+                  }
+                  sonClick={onClickClose}
+                  className={style.closeBtn}
+                >
+                  Close work
+                </button>
+                <button onClick={onClickEdit} className={style.editBtn}>
+                  Edit work
+                </button>
+              </div>
             </div>
           ) : (
             <div className={style.infoContainer}>

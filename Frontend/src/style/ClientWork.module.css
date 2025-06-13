@@ -48,3 +48,33 @@ Error:      #B91C1C (Deep red)
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
 }
+
+.btnContainer {
+  margin: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.deleteBtn,
+.closeBtn,
+.editBtn {
+  padding: 8px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  margin: 0 8px;
+  cursor: pointer;
+  color: white;
+}
+
+.deleteBtn {
+  background-color: #b91c1c;
+}
+
+.closeBtn {
+  background-color: #111827;
+}
+
+.editBtn {
+  background-color: #3b82f6;
+}
