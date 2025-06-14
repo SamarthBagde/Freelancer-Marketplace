@@ -88,14 +88,14 @@ const ClientWork = () => {
         <div className={style.workInfo}>
           {work ? (
             <div className={style.infoContainer}>
-              <div className={style.title}>{work.title}</div>
-              <div className={style.title}>{work.description}</div>
-              <div className={style.title}>{work.domain}</div>
-              <div className={style.title}>{work.skillsRequired}</div>
-              <div className={style.title}>{work.budget}</div>
-              <div className={style.title}>{work.createdAt}</div>
-              <div className={style.title}>{work.deadline}</div>
-              <div className={style.title}>{work.status}</div>
+              <div className={style.text}>Title : {work.title}</div>
+              <div className={style.text}>Description : {work.description}</div>
+              <div className={style.text}> Domain : {work.domain}</div>
+              <div className={style.text}>Skills : {work.skillsRequired} </div>
+              <div className={style.text}>Budget : {work.budget}</div>
+              <div className={style.text}> Start Date : {work.createdAt} </div>
+              <div className={style.text}>Deadline : {work.deadline}</div>
+              <div className={style.text}>Status : {work.status}</div>
 
               <div className={style.btnContainer}>
                 <button onClick={onClickDelete} className={style.deleteBtn}>

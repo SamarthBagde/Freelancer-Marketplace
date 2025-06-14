@@ -1,4 +1,5 @@
 import style from "../style/NavBar.module.css";
+import LogoutBtn from "./LogoutBtn";
 
 const NavBar = ({ title }) => {
   return (
@@ -12,6 +13,7 @@ const NavBar = ({ title }) => {
             <p>Home</p>
             <p>My Profile</p>
           </div>
+          <LogoutBtn />
         </div>
       </div>
     </>

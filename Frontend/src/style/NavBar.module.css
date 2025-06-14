@@ -13,6 +13,11 @@
   cursor: default;
 }
 
+.right {
+  display: flex;
+  gap: 10px;
+}
+
 .right .panel p {
   display: inline-block;
   margin-left: 16px;
