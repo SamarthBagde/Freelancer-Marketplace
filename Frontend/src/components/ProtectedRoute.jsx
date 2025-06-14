@@ -35,7 +35,7 @@ const ProtectedRoute = ({ children, allowedRole }) => {
   }, []);
 
   if (auth === null) {
-    return <p>Loading...</p>;
+    return <p>Loading - Protected Route</p>;
   }
   // if (auth === null || (auth && allowedRole && userRole === null)) {
   //   return <p>Loading...</p>;

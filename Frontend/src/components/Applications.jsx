@@ -97,7 +97,7 @@ const Applications = ({ applications }) => {
           return freelancer ? (
             <Card workId={workId} key={ind} freelancer={freelancer} />
           ) : (
-            <div key={ind}>Loading</div>
+            <div key={ind}>Loading - Applications</div>
           );
         })
       ) : (

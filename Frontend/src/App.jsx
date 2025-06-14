@@ -8,6 +8,7 @@ import LandingPage from "./pages/Landingpage";
 import UploadWork from "./pages/UploadWork";
 import NotFoundErrorPage from "./pages/NotFoundErrorPage";
 import ClientWork from "./pages/ClientWork";
+import FreelancerWork from "./pages/FreelancerWork";
 
 function App() {
   return (
@@ -50,6 +51,14 @@ function App() {
           element={
             <ProtectedRoute allowedRole={"freelancer"}>
               <FreelancerDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/freelancer/work/:workId"
+          element={
+            <ProtectedRoute allowedRole={"freelancer"}>
+              <FreelancerWork />
             </ProtectedRoute>
           }
         />

@@ -134,7 +134,7 @@ const ClientWork = () => {
               <AcceptedApplication acceptedApplication={work.applications} />
             )
           ) : (
-            <div>Loading</div>
+            <div>Loading - Client work</div>
           )}
         </div>
       </div>

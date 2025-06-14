@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../style/login.css";
+import ErrorMsg from "../components/ErrorMsg";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -66,7 +67,8 @@ const Login = () => {
         <div className="left-side"></div>
         <div className="right-side">
           {errorMsg ? (
-            <div className="error-msg-field">⚠ {errorMsg}</div>
+            // <div className="error-msg-field">⚠ {errorMsg}</div>
+            <ErrorMsg message={errorMsg} />
           ) : (
             <></>
           )}
