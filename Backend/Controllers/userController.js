@@ -126,40 +126,6 @@ export const updateProfile = asyncHandler(async (req, res, next) => {
   });
 }); // not done yet
 
-// export const protect = asyncHandler(async (req, res, next) => {
-//   const { token } = req.cookies;
-//   if (!token) {
-//     return next(
-//       new AppError("You are not logged in please log in to get access", 401)
-//     );
-//   }
-
-//   const decode = jwt.verify(token, process.env.JWT_SECRET_KEY);
-
-//   const user = await userModel.findById(decode.id);
-
-//   if (!user) {
-//     return next(
-//       new AppError("The user belonging to this token does no longer exist", 401)
-//     );
-//   }
-
-//   req.user = user;
-
-//   next();
-// });
-
-// export const restrictTo = (...roles) => {
-//   return (req, res, next) => {
-//     if (!roles.includes(req.user.role)) {
-//       return next(new AppError("You do not have permission for this", 403));
-//     }
-//     next();
-//   };
-// };
-
-//user action routes
-
 export const getUsers = asyncHandler(async (req, res, next) => {
   const users = await userModel.find();
 

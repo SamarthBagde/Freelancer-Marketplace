@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 
 export const protect = asyncHandler(async (req, res, next) => {
   const { token } = req.cookies;
+
   if (!token) {
     return next(
       new AppError("You are not logged in please log in to get access", 401)

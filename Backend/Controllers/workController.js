@@ -11,8 +11,10 @@ export const addWork = asyncHandler(async (req, res, next) => {
     skillsRequired,
     budget,
     deadline,
-    owner,
+    // owner,
   } = req.body;
+
+  const owner = req.user._id.toString();
 
   if (
     !title ||
@@ -45,21 +47,14 @@ export const addWork = asyncHandler(async (req, res, next) => {
 });
 
 export const getWorks = asyncHandler(async (req, res, next) => {
-  const works = await workModel.find();
+  const queryObj = { ...req.query };
+  const excludedFields = ["sort", "limit", "page", "fields"];
 
-  res.status(200).json({
-    status: "success",
-    total: works.length,
-    data: {
-      works,
-    },
-  });
-});
+  //only filter is apply here we need to done sorting and limiting saparetly
 
-export const getWorksByOwner = asyncHandler(async (req, res, next) => {
-  const ownerId = req.params.id;
+  excludedFields.forEach((ele) => delete queryObj[ele]);
 
-  const works = await workModel.find({ owner: ownerId });
+  const works = await workModel.find(queryObj);
 
   res.status(200).json({
     status: "success",
@@ -88,6 +83,7 @@ export const getWorkById = asyncHandler(async (req, res, next) => {
 
 export const deleteWork = asyncHandler(async (req, res, next) => {
   const workId = req.params.id;
+  const userId = req.user._id;
 
   const work = await workModel.findById(workId);
 
@@ -95,6 +91,14 @@ export const deleteWork = asyncHandler(async (req, res, next) => {
   // in correct format then it will throug an error i.e Cast Error
   if (!work) {
     return next(new AppError("Not fount work with this id", 400));
+  }
+
+  console.log(work.owner);
+  console.log(userId);
+  if (!userId.equals(work.owner)) {
+    return next(
+      new AppError("Only the work owner can perform this action", 400)
+    );
   }
 
   await work.deleteOne();
@@ -137,7 +141,8 @@ export const updateWorkStatus = asyncHandler(async (req, res, next) => {
 });
 
 export const applyForWork = asyncHandler(async (req, res, next) => {
-  const { freelancerId } = req.body;
+  const freelancerId = req.user._id.toString();
+
   const work = await workModel.findById(req.params.id);
   const freelancer = await userModel.findById(freelancerId);
 
@@ -147,6 +152,19 @@ export const applyForWork = asyncHandler(async (req, res, next) => {
 
   if (!work) {
     return next(new AppError("Work not found with this id", 400));
+  }
+
+  const alreadyApplied = work.applications.some((a) =>
+    a.freelancers.equals(freelancerId)
+  );
+
+  if (alreadyApplied) {
+    return next(
+      new AppError(
+        "You’ve already applied. Please wait for a response from the client.",
+        400
+      )
+    );
   }
 
   work.applications.push({ freelancers: freelancerId });
@@ -215,7 +233,7 @@ export const closeWork = asyncHandler(async (req, res, next) => {
     return next(new AppError("Work not found with this id", 400));
   }
 
-  if (work.status === "completed" || work.status === "cancelleds") {
+  if (work.status === "completed" || work.status === "cancelled") {
     return next(new AppError("Work is already closed", 400));
   }
 
@@ -224,7 +242,7 @@ export const closeWork = asyncHandler(async (req, res, next) => {
   if (status === "in progress") {
     newStatus = "completed";
   } else if (status === "open") {
-    newStatus = "cancelleds";
+    newStatus = "cancelled";
   }
 
   work.status = newStatus;

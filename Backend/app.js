@@ -16,8 +16,8 @@ app.use(
   })
 );
 
-app.use("/user", userRouter);
-app.use("/work", workRouter);
+app.use("/api/user", userRouter);
+app.use("/api/work", workRouter);
 
 app.all("*unknown", (req, res, next) => {
   //   res.status(404).json({
