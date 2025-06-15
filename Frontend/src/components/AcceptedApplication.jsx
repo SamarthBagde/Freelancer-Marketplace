@@ -14,7 +14,7 @@ const AcceptedApplication = ({ acceptedApplication }) => {
       //   console.log(accepteFreelancer[0].freelancers);
       try {
         const res = await axios.get(
-          `http://localhost:3001/user/getUser/${accepteFreelancer[0].freelancers}`,
+          `http://localhost:3001/api/user/getUser/${accepteFreelancer[0].freelancers}`,
           {
             withCredentials: true,
           }

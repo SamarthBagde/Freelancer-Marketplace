@@ -9,7 +9,7 @@ const Card = ({ freelancer, workId }) => {
   const handleOnClick = async (freelancerId) => {
     try {
       const res = await axios.post(
-        `http://localhost:3001/work/${workId}/accept`,
+        `http://localhost:3001/api/work/${workId}/accept`,
         {
           freelancerId,
         },
@@ -68,7 +68,7 @@ const Applications = ({ applications }) => {
       try {
         const response = await Promise.all(
           ids.map((id) =>
-            axios.get(`http://localhost:3001/user/getUser/${id}`, {
+            axios.get(`http://localhost:3001/api/user/getUser/${id}`, {
               withCredentials: true,
             })
           )

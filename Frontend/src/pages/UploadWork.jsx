@@ -1,6 +1,5 @@
 import axios from "axios";
-import React, { useState, useContext } from "react";
-import UserContext from "../context/UserContext";
+import { useState } from "react";
 import styles from "../style/uploadWork.module.css";
 
 const UploadWork = () => {
@@ -12,15 +11,12 @@ const UploadWork = () => {
   const [deadline, setDeadline] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
-  const user = useContext(UserContext);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const id = user?._id;
     setErrorMsg("");
 
-    if (!title || !description || !domain || budget <= 0 || !id) {
+    if (!title || !description || !domain || budget <= 0) {
       setErrorMsg("Please fill in all required fields correctly.");
       return;
     }
@@ -42,13 +38,16 @@ const UploadWork = () => {
       skillsRequired,
       budget,
       deadline,
-      owner: id,
     };
 
     try {
-      const res = await axios.post("http://localhost:3001/work/addwork", data, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        "http://localhost:3001/api/work/addwork",
+        data,
+        {
+          withCredentials: true,
+        }
+      );
 
       if (res.status === 201) {
         console.log("Work added");

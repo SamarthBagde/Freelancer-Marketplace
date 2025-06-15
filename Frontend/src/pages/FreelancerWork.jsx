@@ -18,7 +18,7 @@ const FreelancerWork = () => {
     const getWork = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3001/work/getWork/${workId}`,
+          `http://localhost:3001/api/work/getWork/${workId}`,
           {
             withCredentials: true,
           }
@@ -39,10 +39,8 @@ const FreelancerWork = () => {
   const handleOnClick = async () => {
     try {
       const res = await axios.post(
-        `http://localhost:3001/work/${workId}/apply`,
-        {
-          freelancerId: user._id,
-        },
+        `http://localhost:3001/api/work/${workId}/apply`,
+        {},
         {
           withCredentials: true,
         }

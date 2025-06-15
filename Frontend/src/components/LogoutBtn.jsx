@@ -7,7 +7,7 @@ const LogoutBtn = () => {
   const navigate = useNavigate();
   const handleClick = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/user/logout", {
+      const res = await axios.get("http://localhost:3001/api/user/logout", {
         withCredentials: true,
       });
       if (res.status === 200) {

@@ -72,7 +72,7 @@ const Register = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3001/user/register",
+        "http://localhost:3001/api/user/register",
         data,
         { withCredentials: true }
       );

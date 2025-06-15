@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import style from "../style/ClientWork.module.css";
@@ -6,15 +6,17 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Applications from "../components/Applications";
 import AcceptedApplication from "../components/AcceptedApplication";
+import UserContext from "../context/UserContext";
 
 const ClientWork = () => {
   const { workId } = useParams(); // extract worKId from url
   const [work, setWork] = useState(null);
+  const user = useContext(UserContext);
   useEffect(() => {
     const getworkInfo = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3001/work/getWork/${workId}`,
+          `http://localhost:3001/api/work/getWork/${workId}`,
           {
             withCredentials: true,
           }
@@ -40,7 +42,7 @@ const ClientWork = () => {
     if (isConfirm) {
       try {
         const res = await axios.delete(
-          `http://localhost:3001/work/deleteWork/${workId}`,
+          `http://localhost:3001/api/work/deleteWork/${workId}`,
           {
             withCredentials: true,
           }
@@ -60,7 +62,7 @@ const ClientWork = () => {
     if (isConfirm) {
       try {
         const res = await axios.post(
-          `http://localhost:3001/work/closeWork/${workId}`,
+          `http://localhost:3001/api/work/closeWork/${workId}`,
           {
             status: work.status,
           },
@@ -105,7 +107,7 @@ const ClientWork = () => {
                   disabled={
                     work.status === "completed" || work.status === "cancelled"
                   }
-                  sonClick={onClickClose}
+                  onClick={onClickClose}
                   className={style.closeBtn}
                 >
                   Close work
@@ -128,7 +130,7 @@ const ClientWork = () => {
         </div>
         <div className={style.freelancerInfo}>
           {work ? (
-            work.status === "opne" ? (
+            work.status === "open" ? (
               <Applications applications={work.applications} />
             ) : (
               <AcceptedApplication acceptedApplication={work.applications} />

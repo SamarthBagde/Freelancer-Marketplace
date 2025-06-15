@@ -9,7 +9,7 @@ const WorkGridFreelancer = () => {
     const getData = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3001/work/getWorks?status=open",
+          "http://localhost:3001/api/work/getWorks?status=open",
           {
             withCredentials: true,
           }

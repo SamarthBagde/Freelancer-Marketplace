@@ -10,9 +10,8 @@ const WorkGridClient = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        // console.log(`http://localhost:3001/work/getWorks/${user._id}`);
         const res = await axios.get(
-          `http://localhost:3001/work/getWorks/${user._id}`,
+          `http://localhost:3001/api/work/getWorks?owner=${user._id}`,
           {
             withCredentials: true,
           }

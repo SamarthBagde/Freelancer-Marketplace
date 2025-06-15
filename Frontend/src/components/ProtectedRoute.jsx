@@ -5,7 +5,7 @@ import UserContext from "../context/UserContext";
 
 const isAuthenticated = async () => {
   try {
-    const res = await axios.get("http://localhost:3001/user/auth/check", {
+    const res = await axios.get("http://localhost:3001/api/user/auth/check", {
       withCredentials: true,
     });
     return res;
