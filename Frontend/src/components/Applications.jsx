@@ -42,18 +42,18 @@ const Card = ({ freelancer, workId }) => {
       <p>Contact : {freelancer.phone}</p>
 
       <div className={style.btnContainer}>
-        {freelancer.status === "open" ? (
-          <button
-            onClick={() => {
-              handleOnClick(freelancer._id);
-            }}
-            className={style.acceptBtn}
-          >
-            Accept
-          </button>
-        ) : (
+        {/* {freelancer.status === "open" ? ( */}
+        <button
+          onClick={() => {
+            handleOnClick(freelancer._id);
+          }}
+          className={style.acceptBtn}
+        >
+          Accept
+        </button>
+        {/* ) : (
           <></>
-        )}
+        )} */}
       </div>
     </div>
   );

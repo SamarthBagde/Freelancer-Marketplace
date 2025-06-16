@@ -9,6 +9,7 @@ import UploadWork from "./pages/UploadWork";
 import NotFoundErrorPage from "./pages/NotFoundErrorPage";
 import ClientWork from "./pages/ClientWork";
 import FreelancerWork from "./pages/FreelancerWork";
+import FreelancerProfile from "./pages/FreelancerProfile";
 
 function App() {
   return (
@@ -51,6 +52,14 @@ function App() {
           element={
             <ProtectedRoute allowedRole={"freelancer"}>
               <FreelancerDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/freelancer/profile"
+          element={
+            <ProtectedRoute allowedRole={"freelancer"}>
+              <FreelancerProfile />
             </ProtectedRoute>
           }
         />
