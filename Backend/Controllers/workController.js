@@ -2,6 +2,7 @@ import { AppError } from "../Utils/appError.js";
 import workModel from "../Models/workModel.js";
 import userModel from "../Models/userModel.js";
 import { asyncHandler } from "../Middlewares/asyncHandler.js";
+import mongoose from "mongoose";
 
 export const addWork = asyncHandler(async (req, res, next) => {
   const {
@@ -218,6 +219,9 @@ export const acceptApplycation = asyncHandler(async (req, res, next) => {
 
   await work.save();
 
+  freelancer.currentWork.push(work._id);
+  await freelancer.save();
+
   res.status(200).json({
     work,
   });
@@ -249,10 +253,60 @@ export const closeWork = asyncHandler(async (req, res, next) => {
 
   await work.save();
 
+  if (newStatus === "completed") {
+    let freelancerId;
+
+    for (let a of work.applications) {
+      if (a.status === "accepted") {
+        freelancerId = a.freelancers;
+        break;
+      }
+    }
+
+    if (freelancerId) {
+      const freelancer = await userModel.findById(freelancerId);
+      if (freelancer) {
+        freelancer.currentWork = freelancer.currentWork.filter(
+          (id) => id.toString() !== workId.toString()
+        );
+
+        // Add to workHistory if not already added
+        if (
+          !freelancer.workHistory.some(
+            (id) => id.toString() === workId.toString()
+          )
+        ) {
+          freelancer.workHistory.push(workId);
+        }
+
+        await freelancer.save();
+      }
+    }
+  }
+
   res.status(200).json({
     status: "success",
     data: {
       work,
+    },
+  });
+});
+
+export const searchWork = asyncHandler(async (req, res, next) => {
+  const { query } = req.query;
+
+  const works = await workModel.find({
+    $or: [
+      { title: { $regex: query, $options: "i" } },
+      { domain: { $regex: query, $options: "i" } },
+    ],
+  });
+
+  res.status(200).json({
+    status: "success",
+    total: works.length,
+    data: {
+      works,
     },
   });
 });

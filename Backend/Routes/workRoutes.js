@@ -8,6 +8,7 @@ import {
   getWorkById,
   getWorks,
   updateWorkStatus,
+  searchWork,
 } from "../Controllers/workController.js";
 import { protect, restrictTo } from "../Controllers/authController.js";
 
@@ -31,5 +32,7 @@ workRouter.patch(
   restrictTo("client"),
   updateWorkStatus
 );
+
+workRouter.get("/search", protect, searchWork);
 
 export default workRouter;

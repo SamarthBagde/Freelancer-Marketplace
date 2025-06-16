@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import validator from "validator";
 import bcryptjs from "bcryptjs";
+import work from "./workModel.js";
 
 const userSchema = mongoose.Schema({
   name: {
@@ -35,6 +36,19 @@ const userSchema = mongoose.Schema({
     domain: String,
     skills: [String],
   },
+  workHistory: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "work",
+    },
+  ],
+
+  currentWork: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "work",
+    },
+  ],
 });
 
 userSchema.pre("save", async function (next) {
