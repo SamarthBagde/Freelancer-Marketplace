@@ -9,7 +9,11 @@ const ClientDashboard = () => {
   const user = useContext(UserContext);
   return (
     <>
-      <NavBar title={"Client"} />
+      <NavBar
+        title={"Client"}
+        homeLink={"/client"}
+        profileLink={"/client/profile"}
+      />
       <PostWorkBtn />
       <WorkGridClient />
       <Footer />

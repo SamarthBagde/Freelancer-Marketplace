@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import style from "../../style/WorkGrid.module.css";
 import WorkCard from "../WorkCard";
+import SearchBar from "../SearchBar";
 
 const WorkGridFreelancer = () => {
   const [data, setData] = useState(null);
@@ -23,21 +24,25 @@ const WorkGridFreelancer = () => {
       }
     };
     getData();
-  }, []);
+  }, [setData]);
   return (
-    <div className={style.gridConatainer}>
-      {data ? (
-        data.map((work) => (
-          <WorkCard
-            work={work}
-            redirectTo={`/freelancer/work/${work._id}`}
-            key={work._id}
-          />
-        ))
-      ) : (
-        <div>Loading data WorkGridFreelancer</div>
-      )}
-    </div>
+    <>
+      {" "}
+      <SearchBar setData={setData} />
+      <div className={style.gridConatainer}>
+        {data ? (
+          data.map((work) => (
+            <WorkCard
+              work={work}
+              redirectTo={`/freelancer/work/${work._id}`}
+              key={work._id}
+            />
+          ))
+        ) : (
+          <div>Loading data WorkGridFreelancer</div>
+        )}
+      </div>
+    </>
   );
 };
 

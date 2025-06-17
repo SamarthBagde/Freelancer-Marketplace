@@ -5,7 +5,11 @@ import WorkGridFreelancer from "../components/freelancer/WorkGridFreelancer";
 const FreelancerDashboard = () => {
   return (
     <>
-      <NavBar title="Freelancer" />
+      <NavBar
+        title="Freelancer"
+        homeLink={"/freelancer"}
+        profileLink={"/freelancer/profile"}
+      />
       <WorkGridFreelancer />
       <Footer />
     </>

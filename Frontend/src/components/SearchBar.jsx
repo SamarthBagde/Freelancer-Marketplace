@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import style from "../style/SearchBar.module.css";
 
-const SearchBar = () => {
+const SearchBar = ({ setData }) => {
   const [searchTerm, setSearchTerm] = useState("");
   useEffect(() => {
     const getData = async () => {
@@ -11,12 +11,12 @@ const SearchBar = () => {
           `http://localhost:3001/api/work/search?query=${searchTerm}`,
           { withCredentials: true }
         );
-        console.log(res.data.data);
+        setData(res.data.data.works);
       } catch (error) {
         console.log(error.response.data);
       }
     };
-    if (searchTerm.length > 0) getData();
+    getData();
   }, [searchTerm]);
   return (
     <div className={style.searchBarContainer}>

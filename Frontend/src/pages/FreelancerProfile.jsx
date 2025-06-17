@@ -59,7 +59,11 @@ const FreelancerProfile = () => {
   }, []);
   return (
     <>
-      <NavBar title={"User Profile"} />
+      <NavBar
+        title={"User Profile"}
+        homeLink={"/freelancer"}
+        profileLink={"/freelancer/profile"}
+      />
       <div className={style.mainContainer}>
         <div className={style.userInfo}>
           <div className={style.leftSide}>

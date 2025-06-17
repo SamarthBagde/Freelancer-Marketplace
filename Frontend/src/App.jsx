@@ -10,6 +10,7 @@ import NotFoundErrorPage from "./pages/NotFoundErrorPage";
 import ClientWork from "./pages/ClientWork";
 import FreelancerWork from "./pages/FreelancerWork";
 import FreelancerProfile from "./pages/FreelancerProfile";
+import ClientProfile from "./pages/ClientProfile";
 
 function App() {
   return (
@@ -25,6 +26,14 @@ function App() {
           element={
             <ProtectedRoute allowedRole={"client"}>
               <ClientDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/client/profile"
+          element={
+            <ProtectedRoute allowedRole={"client"}>
+              <ClientProfile />
             </ProtectedRoute>
           }
         />

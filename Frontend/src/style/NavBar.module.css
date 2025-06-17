@@ -25,3 +25,8 @@
   margin-left: 16px;
   cursor: pointer;
 }
+
+.btns {
+  text-decoration: none;
+  color: #fff;
+}
