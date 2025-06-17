@@ -3,6 +3,7 @@ import UserContext from "../context/UserContext";
 import style from "../style/UserProfile.module.css";
 import axios from "axios";
 import NavBar from "../components/NavBar";
+import NoDataMsg from "../components/NoDataMsg";
 
 const Card = ({ work }) => {
   return (
@@ -102,7 +103,7 @@ const UserProfile = () => {
             {currentWorks && currentWorks.length > 0 ? (
               currentWorks.map((work) => <Card work={work} key={work._id} />)
             ) : (
-              <div>No work in process right now</div>
+              <NoDataMsg title={"No current jobs"} message={""} />
             )}
           </div>
         </div>
@@ -112,7 +113,7 @@ const UserProfile = () => {
             {workHistorys && workHistorys.length > 0 ? (
               workHistorys.map((work) => <Card work={work} key={work._id} />)
             ) : (
-              <div>No data</div>
+              <NoDataMsg title={"No work history yet"} message={""} />
             )}
           </div>
         </div>

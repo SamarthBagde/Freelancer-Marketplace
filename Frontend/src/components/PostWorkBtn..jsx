@@ -8,7 +8,7 @@ const PostWorkBtn = () => {
   return (
     <div className={style.mainContainer}>
       <div className={style.conatiner}>
-        <h1>Post today, hire tomorrow</h1>
+        <h1>Need a freelancer? Post your project now!</h1>
 
         <Link to={"/client/post-work"} className={style.btn}>
           Post a job

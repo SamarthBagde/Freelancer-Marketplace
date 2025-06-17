@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import style from "../../style/WorkGrid.module.css";
-import WorkCard from "../WorkCard";
-import SearchBar from "../SearchBar";
+import WorkCard from "./WorkCard";
+import SearchBar from "./SearchBar";
+import NoDataMsg from "./NoDataMsg";
 
 const WorkGridFreelancer = () => {
   const [data, setData] = useState(null);
@@ -30,7 +31,7 @@ const WorkGridFreelancer = () => {
       {" "}
       <SearchBar setData={setData} />
       <div className={style.gridConatainer}>
-        {data ? (
+        {data && data.length > 0 ? (
           data.map((work) => (
             <WorkCard
               work={work}
@@ -39,7 +40,10 @@ const WorkGridFreelancer = () => {
             />
           ))
         ) : (
-          <div>Loading data WorkGridFreelancer</div>
+          <NoDataMsg
+            title={"No job listings yet"}
+            message={"New opportunities are posted regularly — stay tuned!"}
+          />
         )}
       </div>
     </>

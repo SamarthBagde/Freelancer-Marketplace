@@ -3,6 +3,7 @@ import axios from "axios";
 import style from "../style/Applications.module.css";
 import { useParams } from "react-router-dom";
 import SuccessMsg from "./SuccessMsg";
+import NoDataMsg from "./NoDataMsg";
 
 const Card = ({ freelancer, workId, setSuccessMsg }) => {
   const skills = freelancer.profile.skills;
@@ -110,7 +111,10 @@ const Applications = ({ applications }) => {
           );
         })
       ) : (
-        <div>No Application yet</div>
+        <NoDataMsg
+          title={"No Applications Found"}
+          message={"Freelancers haven't applied for this job yet."}
+        />
       )}
     </div>
   );
