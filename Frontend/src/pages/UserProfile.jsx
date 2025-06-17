@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../context/UserContext";
-import style from "../style/FreelancerProfile.module.css";
+import style from "../style/UserProfile.module.css";
 import axios from "axios";
 import NavBar from "../components/NavBar";
 
@@ -14,7 +14,7 @@ const Card = ({ work }) => {
   );
 };
 
-const FreelancerProfile = () => {
+const UserProfile = () => {
   const [currentWorks, setCurrentWorks] = useState();
   const [workHistorys, setWorkHistorys] = useState();
   const user = useContext(UserContext);
@@ -22,6 +22,7 @@ const FreelancerProfile = () => {
   useEffect(() => {
     const getCurrentWorks = async () => {
       const currentWorkIds = user.currentWork;
+      console.log(currentWorkIds);
       try {
         const res = await Promise.all(
           currentWorkIds.map((id) =>
@@ -61,8 +62,8 @@ const FreelancerProfile = () => {
     <>
       <NavBar
         title={"User Profile"}
-        homeLink={"/freelancer"}
-        profileLink={"/freelancer/profile"}
+        homeLink={`/${user.role}`}
+        profileLink={`/${user.role}/profile`}
       />
       <div className={style.mainContainer}>
         <div className={style.userInfo}>
@@ -70,15 +71,22 @@ const FreelancerProfile = () => {
             <div className={style.textField}>Name : {user.name}</div>
             <div className={style.textField}>Email : {user.email}</div>
             <div className={style.textField}>phone : {user.phone}</div>
-            <div className={style.textField}>
-              Domain : {user.profile.domain}
-            </div>
-            <div className={style.textField}>
-              Skills :{" "}
-              {user.profile.skills.map((skill) => (
-                <div className={style.skill}>{skill}</div>
-              ))}
-            </div>
+            {user.role === "freelancer" ? (
+              <>
+                {" "}
+                <div className={style.textField}>
+                  Domain : {user.profile.domain}
+                </div>
+                <div className={style.textField}>
+                  Skills :{" "}
+                  {user.profile.skills.map((skill) => (
+                    <div className={style.skill}>{skill}</div>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
             <div className={style.btnContainer}>
               <button>Edit</button>
             </div>
@@ -113,4 +121,4 @@ const FreelancerProfile = () => {
   );
 };
 
-export default FreelancerProfile;
+export default UserProfile;

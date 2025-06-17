@@ -32,7 +32,7 @@ const WorkGridClient = () => {
 
   return (
     <div className={style.gridConatainer}>
-      {data ? (
+      {data && data.length > 0 ? (
         data.map((work) => (
           <WorkCardClient
             redirectTo={`/client/work/${work._id}`}

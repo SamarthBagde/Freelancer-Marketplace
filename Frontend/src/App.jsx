@@ -9,8 +9,7 @@ import UploadWork from "./pages/UploadWork";
 import NotFoundErrorPage from "./pages/NotFoundErrorPage";
 import ClientWork from "./pages/ClientWork";
 import FreelancerWork from "./pages/FreelancerWork";
-import FreelancerProfile from "./pages/FreelancerProfile";
-import ClientProfile from "./pages/ClientProfile";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
   return (
@@ -33,7 +32,8 @@ function App() {
           path="/client/profile"
           element={
             <ProtectedRoute allowedRole={"client"}>
-              <ClientProfile />
+              {/* <ClientProfile /> */}
+              <UserProfile />
             </ProtectedRoute>
           }
         />
@@ -68,7 +68,7 @@ function App() {
           path="/freelancer/profile"
           element={
             <ProtectedRoute allowedRole={"freelancer"}>
-              <FreelancerProfile />
+              <UserProfile />
             </ProtectedRoute>
           }
         />

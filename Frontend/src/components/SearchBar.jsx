@@ -16,8 +16,15 @@ const SearchBar = ({ setData }) => {
         console.log(error.response.data);
       }
     };
-    getData();
-  }, [searchTerm]);
+
+    // Debounce logic: wait 300ms after the user stops typing
+    const delayDebounce = setTimeout(() => {
+      getData();
+    }, 300);
+
+    // Cleanup: clear previous timeout if user types again before 300ms
+    return () => clearTimeout(delayDebounce);
+  }, [searchTerm, setData]);
   return (
     <div className={style.searchBarContainer}>
       <input

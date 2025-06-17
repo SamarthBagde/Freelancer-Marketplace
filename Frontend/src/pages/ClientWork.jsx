@@ -6,12 +6,14 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Applications from "../components/Applications";
 import AcceptedApplication from "../components/AcceptedApplication";
-import UserContext from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import SuccessMsg from "../components/SuccessMsg";
 
 const ClientWork = () => {
   const { workId } = useParams(); // extract worKId from url
   const [work, setWork] = useState(null);
-  const user = useContext(UserContext);
+  const navigate = useNavigate();
+  const [successMsg, setSuccessMsg] = useState("");
   useEffect(() => {
     const getworkInfo = async () => {
       try {
@@ -50,6 +52,7 @@ const ClientWork = () => {
 
         if (res.status === 204) {
           console.log("Work delete successfully.");
+          navigate("/client");
         }
       } catch (error) {
         console.log(error.response.data);
@@ -72,7 +75,8 @@ const ClientWork = () => {
         );
 
         if (res.status === 200) {
-          console.log("Work closed successfully.");
+          setSuccessMsg("Work closed successfully.");
+          setTimeout(() => setSuccessMsg(""), 3000);
         }
       } catch (error) {
         console.log(error.response.data);
@@ -90,6 +94,7 @@ const ClientWork = () => {
         <div className={style.workInfo}>
           {work ? (
             <div className={style.infoContainer}>
+              {successMsg && <SuccessMsg message={successMsg} />}
               <div className={style.text}>Title : {work.title}</div>
               <div className={style.text}>Description : {work.description}</div>
               <div className={style.text}> Domain : {work.domain}</div>
@@ -103,15 +108,14 @@ const ClientWork = () => {
                 <button onClick={onClickDelete} className={style.deleteBtn}>
                   Delete work
                 </button>
-                <button
-                  disabled={
-                    work.status === "completed" || work.status === "cancelled"
-                  }
-                  onClick={onClickClose}
-                  className={style.closeBtn}
-                >
-                  Close work
-                </button>
+                {work.status === "open" || work.status === "in progress" ? (
+                  <button onClick={onClickClose} className={style.closeBtn}>
+                    Close work
+                  </button>
+                ) : (
+                  <></>
+                )}
+
                 <button onClick={onClickEdit} className={style.editBtn}>
                   Edit work
                 </button>

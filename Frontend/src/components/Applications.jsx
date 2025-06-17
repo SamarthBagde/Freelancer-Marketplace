@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import style from "../style/Applications.module.css";
 import { useParams } from "react-router-dom";
+import SuccessMsg from "./SuccessMsg";
 
-const Card = ({ freelancer, workId }) => {
+const Card = ({ freelancer, workId, setSuccessMsg }) => {
   const skills = freelancer.profile.skills;
 
   const handleOnClick = async (freelancerId) => {
@@ -19,6 +20,9 @@ const Card = ({ freelancer, workId }) => {
       );
       if (res.status === 200) {
         console.log("You are hired !!");
+        setSuccessMsg("Freelancer accepted successfully!");
+        // Hide message after 3 seconds
+        setTimeout(() => setSuccessMsg(""), 3000);
       }
     } catch (error) {
       console.log(error.response.data);
@@ -62,6 +66,7 @@ const Card = ({ freelancer, workId }) => {
 const Applications = ({ applications }) => {
   const { workId } = useParams();
   const [freelancers, setFreealancers] = useState({});
+  const [successMsg, setSuccessMsg] = useState("");
   useEffect(() => {
     const getFreelancers = async () => {
       const ids = applications.map((a) => a.freelancers);
@@ -75,9 +80,7 @@ const Applications = ({ applications }) => {
         );
 
         const freelancerMap = {}; // Map for freelancers
-
         response.forEach((res, ind) => {
-          //   console.log(res.data.data.user);
           freelancerMap[ids[ind]] = res.data.data.user;
         });
 
@@ -91,11 +94,17 @@ const Applications = ({ applications }) => {
   }, [applications]);
   return (
     <div className={style.mainContainer}>
+      {successMsg && <SuccessMsg message={successMsg} />}
       {applications.length > 0 ? (
         applications.map((a, ind) => {
           const freelancer = freelancers[a.freelancers];
           return freelancer ? (
-            <Card workId={workId} key={ind} freelancer={freelancer} />
+            <Card
+              workId={workId}
+              key={ind}
+              freelancer={freelancer}
+              setSuccessMsg={setSuccessMsg}
+            />
           ) : (
             <div key={ind}>Loading - Applications</div>
           );

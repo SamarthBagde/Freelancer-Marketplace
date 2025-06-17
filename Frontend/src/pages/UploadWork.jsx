@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
 import styles from "../style/uploadWork.module.css";
+import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
 
 const UploadWork = () => {
   const [title, setTitle] = useState("");
@@ -10,6 +13,8 @@ const UploadWork = () => {
   const [budget, setBudget] = useState(0);
   const [deadline, setDeadline] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,6 +64,7 @@ const UploadWork = () => {
         setBudget(0);
         setDeadline("");
         setErrorMsg("");
+        navigate("/client");
       } else {
         setErrorMsg("Unexpected response. Try again.");
       }
@@ -68,79 +74,87 @@ const UploadWork = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.formContainer}>
-      {errorMsg && <div className={styles.errorMsg}>{errorMsg}</div>}
+    <div>
+      <NavBar
+        title={"Upload Work"}
+        homeLink={"/client"}
+        profileLink={"/client/profile"}
+      />
+      <form onSubmit={handleSubmit} className={styles.formContainer}>
+        {errorMsg && <div className={styles.errorMsg}>{errorMsg}</div>}
 
-      <div className={styles.formGroup}>
-        <p>Work title :</p>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-      </div>
+        <div className={styles.formGroup}>
+          <p>Work title :</p>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+        </div>
 
-      <div className={styles.formGroup}>
-        <p>Work description :</p>
-        <input
-          type="text"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        />
-      </div>
+        <div className={styles.formGroup}>
+          <p>Work description :</p>
+          <input
+            type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+          />
+        </div>
 
-      <div className={styles.formGroup}>
-        <p>Domain :</p>
-        <input
-          type="text"
-          value={domain}
-          onChange={(e) => setDomain(e.target.value)}
-          required
-        />
-      </div>
+        <div className={styles.formGroup}>
+          <p>Domain :</p>
+          <input
+            type="text"
+            value={domain}
+            onChange={(e) => setDomain(e.target.value)}
+            required
+          />
+        </div>
 
-      <div className={styles.formGroup}>
-        <p>Skills required (comma-separated):</p>
-        <input
-          type="text"
-          onChange={(e) => {
-            const input = e.target.value;
-            const skills = input
-              .split(",")
-              .map((i) => i.trim())
-              .filter((i) => i.length > 0);
-            setSkillsRequired(skills);
-          }}
-          required
-        />
-      </div>
+        <div className={styles.formGroup}>
+          <p>Skills required (comma-separated):</p>
+          <input
+            type="text"
+            onChange={(e) => {
+              const input = e.target.value;
+              const skills = input
+                .split(",")
+                .map((i) => i.trim())
+                .filter((i) => i.length > 0);
+              setSkillsRequired(skills);
+            }}
+            required
+          />
+        </div>
 
-      <div className={styles.formGroup}>
-        <p>Budget :</p>
-        <input
-          type="number"
-          value={budget}
-          onChange={(e) => setBudget(e.target.value)}
-          required
-        />
-      </div>
+        <div className={styles.formGroup}>
+          <p>Budget :</p>
+          <input
+            type="number"
+            value={budget}
+            onChange={(e) => setBudget(e.target.value)}
+            required
+          />
+        </div>
 
-      <div className={styles.formGroup}>
-        <p>Deadline :</p>
-        <input
-          type="date"
-          value={deadline}
-          onChange={(e) => setDeadline(e.target.value)}
-          required
-        />
-      </div>
+        <div className={styles.formGroup}>
+          <p>Deadline :</p>
+          <input
+            type="date"
+            value={deadline}
+            onChange={(e) => setDeadline(e.target.value)}
+            required
+          />
+        </div>
 
-      <button type="submit" className={styles.submitButton}>
-        Upload
-      </button>
-    </form>
+        <button type="submit" className={styles.submitButton}>
+          Upload
+        </button>
+      </form>
+      <Footer />
+    </div>
   );
 };
 
