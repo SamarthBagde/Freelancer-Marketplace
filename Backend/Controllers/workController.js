@@ -2,7 +2,6 @@ import { AppError } from "../Utils/appError.js";
 import workModel from "../Models/workModel.js";
 import userModel from "../Models/userModel.js";
 import { asyncHandler } from "../Middlewares/asyncHandler.js";
-import mongoose from "mongoose";
 
 export const addWork = asyncHandler(async (req, res, next) => {
   const {
@@ -14,8 +13,8 @@ export const addWork = asyncHandler(async (req, res, next) => {
     deadline,
     // owner,
   } = req.body;
-
-  const owner = req.user._id.toString();
+  const user = req.user;
+  const owner = user._id.toString();
 
   if (
     !title ||
@@ -38,6 +37,9 @@ export const addWork = asyncHandler(async (req, res, next) => {
     deadline,
     owner,
   });
+
+  user.currentWork.push(work._id);
+  await user.save();
 
   res.status(201).json({
     status: "success",
@@ -85,6 +87,7 @@ export const getWorkById = asyncHandler(async (req, res, next) => {
 export const deleteWork = asyncHandler(async (req, res, next) => {
   const workId = req.params.id;
   const userId = req.user._id;
+  const owner = req.user;
 
   const work = await workModel.findById(workId);
 
@@ -94,14 +97,53 @@ export const deleteWork = asyncHandler(async (req, res, next) => {
     return next(new AppError("Not fount work with this id", 400));
   }
 
-  console.log(work.owner);
-  console.log(userId);
   if (!userId.equals(work.owner)) {
     return next(
       new AppError("Only the work owner can perform this action", 400)
     );
   }
 
+  //removing id from client work history
+  if (work.status === "in progress" || work.status === "open") {
+    owner.currentWork = owner.currentWork.filter(
+      (id) => id.toString() !== workId.toString()
+    );
+  } else {
+    owner.workHistory = owner.workHistory.filter(
+      (id) => id.toString() !== workId.toString()
+    );
+  }
+
+  await owner.save();
+
+  //removing id from freelancer work history '
+
+  if (work.status === "in progress" || work.status === "completed") {
+    let freelancerId;
+
+    for (let freelancer of work.applications) {
+      if (freelancer.status === "accepted") {
+        freelancerId = freelancer.freelancers;
+        break;
+      }
+    }
+
+    if (freelancerId) {
+      const freelancer = await userModel.findById(freelancerId);
+
+      if (work.status === "in progress") {
+        freelancer.currentWork = freelancer.currentWork.filter(
+          (id) => id.toString() !== workId.toString()
+        );
+      } else if (work.status === "completed") {
+        freelancer.workHistory = freelancer.workHistory.filter(
+          (id) => id.toString() !== workId.toString()
+        );
+      }
+
+      await freelancer.save();
+    }
+  }
   await work.deleteOne();
 
   res.status(204).json({
@@ -230,6 +272,7 @@ export const acceptApplycation = asyncHandler(async (req, res, next) => {
 export const closeWork = asyncHandler(async (req, res, next) => {
   const { status } = req.body;
   const workId = req.params.id;
+  const owner = req.user;
 
   const work = await workModel.findById(workId);
 
@@ -237,6 +280,11 @@ export const closeWork = asyncHandler(async (req, res, next) => {
     return next(new AppError("Work not found with this id", 400));
   }
 
+  if (!owner._id.equals(work.owner)) {
+    return next(
+      new AppError("Only the work owner can perform this action", 400)
+    );
+  }
   if (work.status === "completed" || work.status === "cancelled") {
     return next(new AppError("Work is already closed", 400));
   }
@@ -252,6 +300,16 @@ export const closeWork = asyncHandler(async (req, res, next) => {
   work.status = newStatus;
 
   await work.save();
+
+  owner.currentWork = owner.currentWork.filter(
+    (id) => id.toString() !== workId.toString()
+  );
+
+  if (!owner.workHistory.some((id) => id.toString() === workId.toString())) {
+    owner.workHistory.push(workId);
+  }
+
+  await owner.save();
 
   if (newStatus === "completed") {
     let freelancerId;
@@ -269,7 +327,6 @@ export const closeWork = asyncHandler(async (req, res, next) => {
         freelancer.currentWork = freelancer.currentWork.filter(
           (id) => id.toString() !== workId.toString()
         );
-
         // Add to workHistory if not already added
         if (
           !freelancer.workHistory.some(
@@ -296,9 +353,14 @@ export const searchWork = asyncHandler(async (req, res, next) => {
   const { query } = req.query;
 
   const works = await workModel.find({
-    $or: [
-      { title: { $regex: query, $options: "i" } },
-      { domain: { $regex: query, $options: "i" } },
+    $and: [
+      { status: "open" },
+      {
+        $or: [
+          { title: { $regex: query, $options: "i" } },
+          { domain: { $regex: query, $options: "i" } },
+        ],
+      },
     ],
   });
 
