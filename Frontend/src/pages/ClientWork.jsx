@@ -17,12 +17,9 @@ const ClientWork = () => {
   useEffect(() => {
     const getworkInfo = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:3001/api/work/getWork/${workId}`,
-          {
-            withCredentials: true,
-          }
-        );
+        const res = await axios.get(`/work/getWork/${workId}`, {
+          withCredentials: true,
+        });
 
         if (res.status === 200) {
           setWork(res.data.data.work);
@@ -43,12 +40,9 @@ const ClientWork = () => {
 
     if (isConfirm) {
       try {
-        const res = await axios.delete(
-          `http://localhost:3001/api/work/deleteWork/${workId}`,
-          {
-            withCredentials: true,
-          }
-        );
+        const res = await axios.delete(`/work/deleteWork/${workId}`, {
+          withCredentials: true,
+        });
 
         if (res.status === 204) {
           console.log("Work delete successfully.");
@@ -65,7 +59,7 @@ const ClientWork = () => {
     if (isConfirm) {
       try {
         const res = await axios.post(
-          `http://localhost:3001/api/work/closeWork/${workId}`,
+          `/work/closeWork/${workId}`,
           {
             status: work.status,
           },
@@ -100,8 +94,23 @@ const ClientWork = () => {
               <div className={style.text}> Domain : {work.domain}</div>
               <div className={style.text}>Skills : {work.skillsRequired} </div>
               <div className={style.text}>Budget : {work.budget}</div>
-              <div className={style.text}> Start Date : {work.createdAt} </div>
-              <div className={style.text}>Deadline : {work.deadline}</div>
+              <div className={style.text}>
+                {" "}
+                Start Date :{" "}
+                {new Date(work.createdAt).toLocaleDateString("en-IN", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })}{" "}
+              </div>
+              <div className={style.text}>
+                Deadline :{" "}
+                {new Date(work.deadline).toLocaleDateString("en-IN", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })}
+              </div>
               <div className={style.text}>Status : {work.status}</div>
 
               <div className={style.btnContainer}>

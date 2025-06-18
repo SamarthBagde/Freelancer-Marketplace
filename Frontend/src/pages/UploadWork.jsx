@@ -46,13 +46,9 @@ const UploadWork = () => {
     };
 
     try {
-      const res = await axios.post(
-        "http://localhost:3001/api/work/addwork",
-        data,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.post("/work/addwork", data, {
+        withCredentials: true,
+      });
 
       if (res.status === 201) {
         console.log("Work added");
@@ -70,6 +66,7 @@ const UploadWork = () => {
       }
     } catch (error) {
       setErrorMsg(error?.response?.data?.message || "Server error");
+      console.log(error);
     }
   };
 

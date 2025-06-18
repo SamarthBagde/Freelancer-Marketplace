@@ -9,12 +9,9 @@ const LandingPage = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:3001/api/user/auth/check",
-          {
-            withCredentials: true,
-          }
-        );
+        const res = await axios.get("/user/auth/check", {
+          withCredentials: true,
+        });
 
         if (res.status === 200) {
           const role = res.data.userRole || null;

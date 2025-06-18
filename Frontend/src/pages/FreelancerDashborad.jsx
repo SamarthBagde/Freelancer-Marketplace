@@ -1,6 +1,6 @@
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import WorkGridFreelancer from "../components/freelancer/WorkGridFreelancer";
+import WorkGridFreelancer from "../components/WorkGridFreelancer";
 
 const FreelancerDashboard = () => {
   return (

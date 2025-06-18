@@ -8,7 +8,7 @@ const LogoutBtn = () => {
     const isConf = confirm("You want to logout?");
     if (isConf) {
       try {
-        const res = await axios.get("http://localhost:3001/api/user/logout", {
+        const res = await axios.get("/user/logout", {
           withCredentials: true,
         });
         if (res.status === 200) {

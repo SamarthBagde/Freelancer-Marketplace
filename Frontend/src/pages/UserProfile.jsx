@@ -27,7 +27,7 @@ const UserProfile = () => {
       try {
         const res = await Promise.all(
           currentWorkIds.map((id) =>
-            axios.get(`http://localhost:3001/api/work/getWork/${id}`, {
+            axios.get(`/work/getWork/${id}`, {
               withCredentials: true,
             })
           )
@@ -44,7 +44,7 @@ const UserProfile = () => {
       try {
         const res = await Promise.all(
           WorkHistoryIds.map((id) =>
-            axios.get(`http://localhost:3001/api/work/getWork/${id}`, {
+            axios.get(`/work/getWork/${id}`, {
               withCredentials: true,
             })
           )

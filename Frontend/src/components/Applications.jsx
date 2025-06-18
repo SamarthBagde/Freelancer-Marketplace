@@ -11,7 +11,7 @@ const Card = ({ freelancer, workId, setSuccessMsg }) => {
   const handleOnClick = async (freelancerId) => {
     try {
       const res = await axios.post(
-        `http://localhost:3001/api/work/${workId}/accept`,
+        `/work/${workId}/accept`,
         {
           freelancerId,
         },
@@ -70,11 +70,11 @@ const Applications = ({ applications }) => {
   const [successMsg, setSuccessMsg] = useState("");
   useEffect(() => {
     const getFreelancers = async () => {
-      const ids = applications.map((a) => a.freelancers);
+      const ids = applications.map((a) => a.freelancerId);
       try {
         const response = await Promise.all(
           ids.map((id) =>
-            axios.get(`http://localhost:3001/api/user/getUser/${id}`, {
+            axios.get(`/user/getUser/${id}`, {
               withCredentials: true,
             })
           )
@@ -97,8 +97,8 @@ const Applications = ({ applications }) => {
     <div className={style.mainContainer}>
       {successMsg && <SuccessMsg message={successMsg} />}
       {applications.length > 0 ? (
-        applications.map((a, ind) => {
-          const freelancer = freelancers[a.freelancers];
+        applications.map((application, ind) => {
+          const freelancer = freelancers[application.freelancerId];
           return freelancer ? (
             <Card
               workId={workId}

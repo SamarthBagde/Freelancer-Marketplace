@@ -17,12 +17,9 @@ const FreelancerWork = () => {
   useEffect(() => {
     const getWork = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:3001/api/work/getWork/${workId}`,
-          {
-            withCredentials: true,
-          }
-        );
+        const res = await axios.get(`/work/getWork/${workId}`, {
+          withCredentials: true,
+        });
 
         if (res.status === 200) {
           setWork(res.data.data.work);
@@ -39,7 +36,7 @@ const FreelancerWork = () => {
   const handleOnClick = async () => {
     try {
       const res = await axios.post(
-        `http://localhost:3001/api/work/${workId}/apply`,
+        `/work/${workId}/apply`,
         {},
         {
           withCredentials: true,
@@ -68,7 +65,14 @@ const FreelancerWork = () => {
           <div className={style.infoRow}>Domain: {work.domain}</div>
           <div className={style.infoRow}>Skills: {work.skillsRequired}</div>
           <div className={style.infoRow}>Budget: {work.budget}</div>
-          <div className={style.infoRow}>Start Date: {work.createdAt}</div>
+          <div className={style.infoRow}>
+            Start Date:{" "}
+            {new Date(work.createdAt).toLocaleDateString("en-IN", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })}
+          </div>
           <div className={style.infoRow}>Deadline: {work.deadline}</div>
           <div className={style.infoRow}>Status: {work.status}</div>
 

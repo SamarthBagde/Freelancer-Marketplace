@@ -71,11 +71,9 @@ const Register = () => {
     console.log(data);
 
     try {
-      const res = await axios.post(
-        "http://localhost:3001/api/user/register",
-        data,
-        { withCredentials: true }
-      );
+      const res = await axios.post("/user/register", data, {
+        withCredentials: true,
+      });
       if (res.status === 201) {
         console.log("User regisetred");
         const role = res.data.data.user.role;
@@ -193,7 +191,7 @@ const Register = () => {
                   />
                 </div>
                 <div className="text-field">
-                  <p>Skills : </p>
+                  <p>Skills (comma-separated) : </p>
                   <input
                     type="text"
                     required

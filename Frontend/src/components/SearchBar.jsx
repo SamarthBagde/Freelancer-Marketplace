@@ -7,10 +7,9 @@ const SearchBar = ({ setData }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:3001/api/work/search?query=${searchTerm}`,
-          { withCredentials: true }
-        );
+        const res = await axios.get(`/work/search?query=${searchTerm}`, {
+          withCredentials: true,
+        });
         setData(res.data.data.works);
       } catch (error) {
         console.log(error.response.data);
