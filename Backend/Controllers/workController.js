@@ -4,15 +4,9 @@ import userModel from "../Models/userModel.js";
 import { asyncHandler } from "../Middlewares/asyncHandler.js";
 
 export const addWork = asyncHandler(async (req, res, next) => {
-  const {
-    title,
-    description,
-    domain,
-    skillsRequired,
-    budget,
-    deadline,
-    // owner,
-  } = req.body;
+  const { title, description, domain, skillsRequired, budget, deadline } =
+    req.body;
+
   const user = req.user;
   const owner = user._id.toString();
 
@@ -91,8 +85,8 @@ export const deleteWork = asyncHandler(async (req, res, next) => {
 
   const work = await workModel.findById(workId);
 
-  //it check, id format is correct but there is no work with this id in db.. Note : Global error handler check form id format if id is not
-  // in correct format then it will throug an error i.e Cast Error
+  //Note : Global error handler check form id format if id is not in correct format then it will throug an error i.e Cast Error
+  //this below line check, if there is no work with this id in db then return error
   if (!work) {
     return next(new AppError("Not fount work with this id", 400));
   }
@@ -121,9 +115,9 @@ export const deleteWork = asyncHandler(async (req, res, next) => {
   if (work.status === "in progress" || work.status === "completed") {
     let freelancerId;
 
-    for (let freelancer of work.applications) {
-      if (freelancer.status === "accepted") {
-        freelancerId = freelancer.freelancers;
+    for (let application of work.applications) {
+      if (application.status === "accepted") {
+        freelancerId = application.freelancerId;
         break;
       }
     }
@@ -198,7 +192,7 @@ export const applyForWork = asyncHandler(async (req, res, next) => {
   }
 
   const alreadyApplied = work.applications.some((a) =>
-    a.freelancers.equals(freelancerId)
+    a.freelancerId.equals(freelancerId)
   );
 
   if (alreadyApplied) {
@@ -210,7 +204,7 @@ export const applyForWork = asyncHandler(async (req, res, next) => {
     );
   }
 
-  work.applications.push({ freelancers: freelancerId });
+  work.applications.push({ freelancerId: freelancerId });
   await work.save();
 
   res.status(200).json({
@@ -240,7 +234,7 @@ export const acceptApplycation = asyncHandler(async (req, res, next) => {
   }
 
   const application = work.applications.find(
-    (a) => a.freelancers.toString() === freelancerId
+    (a) => a.freelancerId.toString() === freelancerId
   );
 
   if (!application) {
@@ -252,7 +246,7 @@ export const acceptApplycation = asyncHandler(async (req, res, next) => {
   application.status = "accepted";
 
   work.applications.forEach((a) => {
-    if (a.freelancers.toString() !== freelancerId) {
+    if (a.freelancerId.toString() !== freelancerId) {
       a.status = "rejected";
     }
   });
@@ -316,7 +310,7 @@ export const closeWork = asyncHandler(async (req, res, next) => {
 
     for (let a of work.applications) {
       if (a.status === "accepted") {
-        freelancerId = a.freelancers;
+        freelancerId = a.freelancerId;
         break;
       }
     }

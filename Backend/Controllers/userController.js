@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 
 //authentication and authorization routes
 export const registerUser = asyncHandler(async (req, res, next) => {
-  console.log(req.body);
   const { name, email, password, phone, role, profile } = req.body;
   const { domain, skills } = profile || {};
 
@@ -30,6 +29,8 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     }
   }
 
+  //you are checking here if use exist already but we can also do this using
+  //duplicate key error in error habling because we marked email as unique
   const userExists = await userModel.findOne({ email });
   if (userExists) {
     return next(new AppError("User already exists with this email", 400));
@@ -99,8 +100,10 @@ export const logout = asyncHandler(async (req, res, next) => {
 
 //it is just demo need to work on it
 export const updateProfile = asyncHandler(async (req, res, next) => {
+  //only allow to update name, phone, domain, skills
   const userId = req.params.id;
   const user = await userModel.findById(userId);
+
   if (!user) {
     return next(new AppError("User not found for this id", 404));
   }

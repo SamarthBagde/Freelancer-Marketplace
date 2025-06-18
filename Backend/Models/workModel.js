@@ -1,4 +1,3 @@
-import { application } from "express";
 import mongoose from "mongoose";
 
 const workSchema = mongoose.Schema({
@@ -43,7 +42,7 @@ const workSchema = mongoose.Schema({
 
   applications: [
     {
-      freelancers: {
+      freelancerId: {
         type: mongoose.Schema.Types.ObjectId,
         require: true,
       },

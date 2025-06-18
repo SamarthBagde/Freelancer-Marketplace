@@ -36,6 +36,7 @@ const userSchema = mongoose.Schema({
     domain: String,
     skills: [String],
   },
+
   workHistory: [
     {
       type: mongoose.Schema.Types.ObjectId,

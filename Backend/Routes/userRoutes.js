@@ -7,7 +7,7 @@ import {
   getUsers,
   getUserById,
 } from "../Controllers/userController.js";
-import { authUser } from "../Controllers/authController.js";
+import { authUser, protect } from "../Controllers/authController.js";
 
 const userRouter = express.Router();
 
@@ -15,9 +15,8 @@ userRouter.post("/register", registerUser);
 userRouter.post("/login", login);
 userRouter.get("/logout", logout);
 userRouter.get("/auth/check", authUser);
-userRouter.put("/update/:id", updateProfile);
-
 userRouter.get("/getUsers", getUsers);
 userRouter.get("/getUser/:id", getUserById);
+userRouter.put("/update/:id", protect, updateProfile);
 
 export default userRouter;
