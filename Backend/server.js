@@ -1,6 +1,7 @@
 import app from "./app.js";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+console.log(process);
 
 dotenv.config({ path: "./config.env" });
 
@@ -22,7 +23,7 @@ const server = app.listen(process.env.PORT, () => {
   console.log(`Server started at localhost:${process.env.PORT}`);
 });
 
-//Note : you should not blindly relly on these  error handlers. you should handled right where thy occure
+//Note : you should not blindly relly on these  error handlers. you should handled right where they occure
 
 //occurs when a Promise is rejected and no .catch() handler is attached to handle that rejection.
 process.on("unhandledRejection", (err) => {

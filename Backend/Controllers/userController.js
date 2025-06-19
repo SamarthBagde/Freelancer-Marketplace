@@ -2,7 +2,6 @@ import userModel from "../Models/userModel.js";
 import { asyncHandler } from "../Middlewares/asyncHandler.js";
 import { sendToken } from "../Utils/jwtToken.js";
 import { AppError } from "../Utils/appError.js";
-import jwt from "jsonwebtoken";
 
 //authentication and authorization routes
 export const registerUser = asyncHandler(async (req, res, next) => {
@@ -145,7 +144,7 @@ export const getUserById = asyncHandler(async (req, res, next) => {
   const user = await userModel.findById(userId);
 
   if (!user) {
-    return next(new AppError("No user found", 400));
+    return next(new AppError("No user found with the provided ID", 400));
   }
 
   res.status(200).json({
