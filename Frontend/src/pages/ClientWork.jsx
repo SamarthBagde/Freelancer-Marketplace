@@ -8,12 +8,15 @@ import Applications from "../components/Applications";
 import AcceptedApplication from "../components/AcceptedApplication";
 import { useNavigate } from "react-router-dom";
 import SuccessMsg from "../components/SuccessMsg";
+import WorkEdit from "../components/WorkEdit";
+import NavBar from "../components/NavBar";
 
 const ClientWork = () => {
   const { workId } = useParams(); // extract worKId from url
   const [work, setWork] = useState(null);
   const navigate = useNavigate();
   const [successMsg, setSuccessMsg] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
   useEffect(() => {
     const getworkInfo = async () => {
       try {
@@ -79,11 +82,17 @@ const ClientWork = () => {
   };
 
   const onClickEdit = async () => {
-    console.log("Yet to work on it, wait ");
+    setIsEditing(true);
   };
 
   return (
     <>
+      {isEditing && <WorkEdit setIsEditing={setIsEditing} work={work} />}
+      <NavBar
+        title={"Work"}
+        homeLink={"/client"}
+        profileLink={"/client/profile"}
+      />
       <div className={style.mainContainer}>
         <div className={style.workInfo}>
           {work ? (

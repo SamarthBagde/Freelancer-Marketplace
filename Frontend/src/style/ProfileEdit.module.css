@@ -1,0 +1,104 @@
+/* Overlay styling */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(4px); /* subtle blur for nicer UI */
+  overflow-y: scroll;
+}
+
+/* Form container styling */
+.formConatiner {
+  background-color: #ffffff;
+  width: 90%;
+  max-width: 600px;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.5rem;
+}
+
+/* Grouping for each input */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Label text */
+.formGroup p {
+  font-size: 16px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Input styling */
+.formGroup input {
+  padding: 12px 16px;
+  font-size: 15px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  color: #111827;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+/* On focus */
+.formGroup input:focus {
+  border-color: #6366f1;
+  background-color: #fff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.updateBtn {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #4f46e5;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.updateBtn:hover {
+  background-color: #4338ca;
+}
+
+.closeBtnContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.closeBtn {
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: 1px solid #000;
+  cursor: pointer;
+  justify-content: flex-end;
+  border-radius: 16px;
+}
+.closeBtn:hover {
+  color: #fff;
+  background-color: #ef4444;
+}
+
+.centerDiv {
+  display: flex;
+  justify-content: center;
+}

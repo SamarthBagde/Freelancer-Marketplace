@@ -20,15 +20,12 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(email + " " + password + " " + role);
     if (!email.trim() || !password.trim()) {
-      console.log("Please enter both email and password.");
       setErrorMsg("Please enter both email and password.");
       return;
     }
 
     if (!role) {
-      console.log("Please select a user role.");
       setErrorMsg("Please select a user role.");
       return;
     }

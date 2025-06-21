@@ -405,6 +405,12 @@ export const updateWorkDetails = asyncHandler(async (req, res, next) => {
     );
   }
 
+  if (new Date(deadline) < new Date(work.deadline)) {
+    return next(
+      new AppError("Deadline must be later than the current one", 400)
+    );
+  }
+
   const newData = {};
 
   if (title) newData.title = title;

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import styles from "../style/UploadWork.module.css";
+import style from "../style/UploadWork.module.css";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
@@ -77,10 +77,10 @@ const UploadWork = () => {
         homeLink={"/client"}
         profileLink={"/client/profile"}
       />
-      <form onSubmit={handleSubmit} className={styles.formContainer}>
-        {errorMsg && <div className={styles.errorMsg}>{errorMsg}</div>}
+      <form onSubmit={handleSubmit} className={style.formContainer}>
+        {errorMsg && <div className={style.errorMsg}>{errorMsg}</div>}
 
-        <div className={styles.formGroup}>
+        <div className={style.formGroup}>
           <p>Work title :</p>
           <input
             type="text"
@@ -90,7 +90,7 @@ const UploadWork = () => {
           />
         </div>
 
-        <div className={styles.formGroup}>
+        <div className={style.formGroup}>
           <p>Work description :</p>
           <input
             type="text"
@@ -100,7 +100,7 @@ const UploadWork = () => {
           />
         </div>
 
-        <div className={styles.formGroup}>
+        <div className={style.formGroup}>
           <p>Domain :</p>
           <input
             type="text"
@@ -110,7 +110,7 @@ const UploadWork = () => {
           />
         </div>
 
-        <div className={styles.formGroup}>
+        <div className={style.formGroup}>
           <p>Skills required (comma-separated):</p>
           <input
             type="text"
@@ -126,7 +126,7 @@ const UploadWork = () => {
           />
         </div>
 
-        <div className={styles.formGroup}>
+        <div className={style.formGroup}>
           <p>Budget :</p>
           <input
             type="number"
@@ -136,7 +136,7 @@ const UploadWork = () => {
           />
         </div>
 
-        <div className={styles.formGroup}>
+        <div className={style.formGroup}>
           <p>Deadline :</p>
           <input
             type="date"
@@ -146,7 +146,7 @@ const UploadWork = () => {
           />
         </div>
 
-        <button type="submit" className={styles.submitButton}>
+        <button type="submit" className={style.submitButton}>
           Upload
         </button>
       </form>

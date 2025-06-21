@@ -106,7 +106,12 @@ export const updateProfile = asyncHandler(async (req, res, next) => {
     return next(new AppError("User not found for this id", 404));
   }
 
-  if (!name && !phone && !domain && skills.length == 0) {
+  if (
+    !name &&
+    !phone &&
+    !domain &&
+    (!Array.isArray(skills) || skills.length === 0)
+  ) {
     return next(
       new AppError("Please provide at least one field to update", 400)
     );
@@ -115,7 +120,7 @@ export const updateProfile = asyncHandler(async (req, res, next) => {
   const newData = {};
 
   if (name) newData.name = name;
-  if (phone) newData.phone = phone;
+  if (phone && phone.length === 10) newData.phone = phone;
 
   if (user.role === "freelancer") {
     if (domain || (Array.isArray(skills) && skills.length > 0)) {

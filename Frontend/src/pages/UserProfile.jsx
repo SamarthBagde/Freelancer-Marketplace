@@ -4,6 +4,7 @@ import style from "../style/UserProfile.module.css";
 import axios from "axios";
 import NavBar from "../components/NavBar";
 import NoDataMsg from "../components/NoDataMsg";
+import ProfileEdit from "../components/ProfileEdit";
 
 const Card = ({ work }) => {
   return (
@@ -19,11 +20,16 @@ const UserProfile = () => {
   const [currentWorks, setCurrentWorks] = useState();
   const [workHistorys, setWorkHistorys] = useState();
   const user = useContext(UserContext);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
+    if (isEditing) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
     const getCurrentWorks = async () => {
       const currentWorkIds = user.currentWork;
-      console.log(currentWorkIds);
       try {
         const res = await Promise.all(
           currentWorkIds.map((id) =>
@@ -58,9 +64,13 @@ const UserProfile = () => {
 
     getCurrentWorks();
     getWorkHistory();
-  }, []);
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isEditing]);
   return (
     <>
+      {isEditing && <ProfileEdit setIsEditing={setIsEditing} />}
       <NavBar
         title={"User Profile"}
         homeLink={`/${user.role}`}
@@ -80,8 +90,10 @@ const UserProfile = () => {
                 </div>
                 <div className={style.textField}>
                   Skills :{" "}
-                  {user.profile.skills.map((skill) => (
-                    <div className={style.skill}>{skill}</div>
+                  {user.profile.skills.map((skill, ind) => (
+                    <div className={style.skill} key={ind}>
+                      {skill}
+                    </div>
                   ))}
                 </div>
               </>
@@ -89,7 +101,13 @@ const UserProfile = () => {
               <></>
             )}
             <div className={style.btnContainer}>
-              <button>Edit</button>
+              <button
+                onClick={() => {
+                  setIsEditing(true);
+                }}
+              >
+                Edit
+              </button>
             </div>
           </div>
           <div className={style.rightSide}>
