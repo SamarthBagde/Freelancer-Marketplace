@@ -97,36 +97,55 @@ export const logout = asyncHandler(async (req, res, next) => {
     });
 });
 
-//it is just demo need to work on it
 export const updateProfile = asyncHandler(async (req, res, next) => {
   //only allow to update name, phone, domain, skills
-  const userId = req.params.id;
-  const user = await userModel.findById(userId);
+  const user = req.user;
+  const { name, phone, domain, skills } = req.body;
 
   if (!user) {
     return next(new AppError("User not found for this id", 404));
   }
-  const { name, phone } = req.body;
 
-  if (!name && !phone) {
-    return next(new AppError("Please enter data correctly", 400));
+  if (!name && !phone && !domain && skills.length == 0) {
+    return next(
+      new AppError("Please provide at least one field to update", 400)
+    );
   }
 
-  const newData = {
-    name,
-    phone,
-  };
+  const newData = {};
 
-  const updatedUser = await userModel.findByIdAndUpdate(userId, newData, {
+  if (name) newData.name = name;
+  if (phone) newData.phone = phone;
+
+  if (user.role === "freelancer") {
+    if (domain || (Array.isArray(skills) && skills.length > 0)) {
+      newData.profile = {};
+      if (domain) {
+        newData.profile.domain = domain;
+      } else {
+        newData.profile.domain = user.profile.domain;
+      }
+
+      if (skills && skills.length > 0) {
+        newData.profile.skills = skills;
+      } else {
+        newData.profile.skills = user.profile.skills;
+      }
+    }
+  }
+
+  const updatedUser = await userModel.findByIdAndUpdate(user._id, newData, {
     new: true,
     runValidators: true,
   });
 
   res.status(200).json({
     status: "success",
-    data: updatedUser,
+    data: {
+      updatedUser,
+    },
   });
-}); // not done yet
+});
 
 export const getUsers = asyncHandler(async (req, res, next) => {
   const users = await userModel.find();

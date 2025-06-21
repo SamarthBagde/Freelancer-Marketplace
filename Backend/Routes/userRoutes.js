@@ -17,6 +17,6 @@ userRouter.get("/logout", logout);
 userRouter.get("/auth/check", authUser);
 userRouter.get("/getUsers", getUsers);
 userRouter.get("/getUser/:id", getUserById);
-userRouter.put("/update/:id", protect, updateProfile);
+userRouter.patch("/updateProfile", protect, updateProfile);
 
 export default userRouter;

@@ -9,6 +9,7 @@ import {
   getWorks,
   updateWorkStatus,
   searchWork,
+  updateWorkDetails,
 } from "../Controllers/workController.js";
 import { protect, restrictTo } from "../Controllers/authController.js";
 
@@ -26,6 +27,12 @@ workRouter.post(
 workRouter.post("/closeWork/:id", protect, restrictTo("client"), closeWork);
 workRouter.get("/getWork/:id", protect, getWorkById);
 workRouter.delete("/deleteWork/:id", protect, restrictTo("client"), deleteWork);
+workRouter.patch(
+  "/updateWork/:id",
+  protect,
+  restrictTo("client"),
+  updateWorkDetails
+);
 workRouter.patch(
   "/updateWorkStatus/:id",
   protect,

@@ -377,3 +377,53 @@ export const searchWork = asyncHandler(async (req, res, next) => {
     },
   });
 });
+
+export const updateWorkDetails = asyncHandler(async (req, res, next) => {
+  //update only title, domain , description, skillsRequired, budget, deadline
+  const workId = req.params.id;
+  const work = await workModel.findById(workId);
+  const { title, domain, description, skillsRequired, budget, deadline } =
+    req.body;
+
+  if (!work) {
+    if (!work) {
+      return next(new AppError("No work found with the provided ID", 400));
+    }
+  }
+
+  if (
+    !title &&
+    !domain &&
+    !description &&
+    !budget &&
+    !deadline &&
+    !Array.isArray(skillsRequired) &&
+    !skillsRequired.length > 0
+  ) {
+    return next(
+      new AppError("Please provide at least one field to update", 400)
+    );
+  }
+
+  const newData = {};
+
+  if (title) newData.title = title;
+  if (domain) newData.domain = domain;
+  if (description) newData.description = description;
+  if (budget) newData.budget = budget;
+  if (deadline) newData.deadline = deadline;
+  if (skillsRequired && skillsRequired.length > 0)
+    newData.skillsRequired = skillsRequired;
+
+  const updatedWork = await workModel.findByIdAndUpdate(workId, newData, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    statsu: "success",
+    data: {
+      updatedWork,
+    },
+  });
+});
