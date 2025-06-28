@@ -5,13 +5,14 @@ import { AppError } from "../Utils/appError.js";
 
 //authentication and authorization routes
 export const registerUser = asyncHandler(async (req, res, next) => {
-  const { name, email, password, phone, role, profile } = req.body;
+  const { name, email, password, confirmPassword, phone, role, profile } =
+    req.body;
   const { domain, skills } = profile || {};
 
-  if (!name || !email || !password || !phone || !role) {
+  if (!name || !email || !password || !confirmPassword || !phone || !role) {
     return next(
       new AppError(
-        "All fields (name, email, password, phone, role) are required",
+        "All fields (name, email, password, confirmPassword, phone, role) are required",
         400
       )
     );
@@ -39,6 +40,7 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     name,
     email,
     password,
+    confirmPassword,
     phone,
     role,
   };
@@ -157,6 +159,7 @@ export const getUsers = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
+    total: users.length,
     data: {
       users,
     },
