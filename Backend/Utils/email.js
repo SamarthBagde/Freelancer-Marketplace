@@ -1,6 +1,8 @@
 import nodemailer from "nodemailer";
 
 const sendEmail = async (options) => {
+  console.log(process.env.EMAIL_USERNAME, process.env.EMAIL_PASSWORD);
+
   //1. create a transporter
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
